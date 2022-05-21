@@ -1,4 +1,9 @@
-"""Batch crop some files."""
+"""Batch crop some PDF files.
+
+Purpose of this script is to select a bunch of PDF files and collate them all
+into one file. It also crops out the bottom half of every page for printing out
+Royal Mail labels.
+"""
 
 import os
 import tkinter
@@ -8,15 +13,16 @@ from tkinter import filedialog
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 
-def main():
-    """Program starts here."""
-    tkinter.Tk().withdraw()
-    file_names = map(
-        Path,
-        filedialog.askopenfilenames(title='Choose files to be cropped...',
-                                    filetypes=(('PDFs', '.pdf'), )))
-
-    file_names = list(file_names)
+def batch_crop(file_names: list[str | Path] = None):
+    """Batch crop a bunch of PDF files."""
+    if not file_names:
+        tkinter.Tk().withdraw()
+        file_names = list(
+            map(
+                Path,
+                filedialog.askopenfilenames(
+                    title='Choose files to be cropped...',
+                    filetypes=(('PDFs', '.pdf'), ))))
 
     writer = PdfFileWriter()
 
@@ -30,11 +36,11 @@ def main():
 
     output_file_name = file_names[0].with_stem('cropped_labels')
 
-    with open(output_file_name, 'wb') as f:
-        writer.write(f)
+    with open(output_file_name, 'wb') as file_object:
+        writer.write(file_object)
 
     os.startfile(output_file_name)
 
 
 if __name__ == '__main__':
-    main()
+    batch_crop()
