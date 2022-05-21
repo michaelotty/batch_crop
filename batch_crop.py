@@ -1,5 +1,6 @@
 """Batch crop some files."""
 
+import os
 import tkinter
 from pathlib import Path
 from tkinter import filedialog
@@ -27,8 +28,12 @@ def main():
                 0, output_page.mediaBox.getUpperLeft_y() / 2)
             writer.addPage(output_page)
 
-    with open(file_names[0].with_stem('cropped_labels'), 'wb') as f:
+    output_file_name = file_names[0].with_stem('cropped_labels')
+
+    with open(output_file_name, 'wb') as f:
         writer.write(f)
+
+    os.startfile(output_file_name)
 
 
 if __name__ == '__main__':
