@@ -14,7 +14,7 @@ def main():
         Path,
         filedialog.askopenfilenames(title='Choose files to be cropped...',
                                     filetypes=(('PDFs', '.pdf'), )))
-    
+
     file_names = list(file_names)
 
     writer = PdfFileWriter()
